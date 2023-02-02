@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils.datetime_safe import datetime
 from django.utils.timezone import localtime
 
 
@@ -32,14 +31,10 @@ class Visit(models.Model):
         )
 
     def get_duration(self) -> str:
-        if not self.leaved_at:
-            time_range = localtime() - self.entered_at
-        else:
-            time_range = self.leaved_at - self.entered_at
+        time_range = localtime(self.leaved_at) - localtime(self.entered_at)
         hours, seconds = divmod(time_range.total_seconds(), 3600)
         minutes, seconds = divmod(seconds, 60)
         return f"{hours:02.0f}:{minutes:02.0f}:{seconds:02.0f}"
 
     def is_strange(self) -> bool:
-        end_time = localtime() if not self.leaved_at else self.leaved_at
-        return (end_time - self.entered_at).total_seconds() > 3600
+        return (localtime(self.leaved_at) - localtime(self.entered_at)).total_seconds() > 3600
