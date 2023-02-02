@@ -41,6 +41,5 @@ class Visit(models.Model):
         return f"{hours:02.0f}:{minutes:02.0f}:{seconds:02.0f}"
 
     def is_strange(self) -> bool:
-        if not self.leaved_at:
-            return (localtime() - self.entered_at).total_seconds() > 3600
-        return (self.leaved_at - self.entered_at).total_seconds() > 3600
+        end_time = localtime() if not self.leaved_at else self.leaved_at
+        return (end_time - self.entered_at).total_seconds() > 3600
