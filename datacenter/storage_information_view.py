@@ -11,7 +11,7 @@ def storage_information_view(request):
             'duration': visit.get_duration(),
             'is_strange': visit.is_strange()
         }
-        for visit in Visit.objects.filter(leaved_at=None)
+        for visit in Visit.objects.filter(leaved_at__isnull=True)
     ]
     context = {
         'non_closed_visits': non_closed_visits,
