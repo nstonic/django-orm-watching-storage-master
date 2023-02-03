@@ -36,11 +36,9 @@ class Visit(models.Model):
         return localtime(self.leaved_at) - localtime(self.entered_at)
 
     def output_duration(self) -> str:
-        time_range = self._get_duration()
-        hours, seconds = divmod(time_range.total_seconds(), 3600)
+        hours, seconds = divmod(self._get_duration().total_seconds(), 3600)
         minutes, seconds = divmod(seconds, 60)
         return f"{hours:02.0f}:{minutes:02.0f}:{seconds:02.0f}"
 
     def is_strange(self) -> bool:
-        time_range = self._get_duration()
-        return time_range.total_seconds() > 3600
+        return self._get_duration().total_seconds() > 3600
