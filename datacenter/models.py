@@ -33,7 +33,6 @@ class Visit(models.Model):
         )
 
     def _get_duration(self) -> timedelta:
-        print(type(localtime(self.leaved_at) - localtime(self.entered_at)))
         return localtime(self.leaved_at) - localtime(self.entered_at)
 
     def output_duration(self) -> str:
