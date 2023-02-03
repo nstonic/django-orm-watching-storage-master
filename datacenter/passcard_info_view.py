@@ -9,7 +9,7 @@ def passcard_info_view(request, passcode):
     this_passcard_visits = [
         {
             'entered_at': visit.entered_at,
-            'duration': visit.get_duration(),
+            'duration': visit.output_duration(),
             'is_strange': visit.is_strange()
         }
         for visit in Visit.objects.filter(passcard=passcard)

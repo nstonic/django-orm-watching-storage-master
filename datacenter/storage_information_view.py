@@ -8,7 +8,7 @@ def storage_information_view(request):
         {
             'who_entered': visit.passcard.owner_name,
             'entered_at': localtime(visit.entered_at),
-            'duration': visit.get_duration(),
+            'duration': visit.output_duration(),
             'is_strange': visit.is_strange()
         }
         for visit in Visit.objects.filter(leaved_at__isnull=True)

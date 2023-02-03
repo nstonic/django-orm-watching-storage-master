@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from django.db import models
 from django.utils.timezone import localtime
 
@@ -30,11 +32,16 @@ class Visit(models.Model):
             )
         )
 
-    def get_duration(self) -> str:
-        time_range = localtime(self.leaved_at) - localtime(self.entered_at)
+    def _get_duration(self) -> timedelta:
+        print(type(localtime(self.leaved_at) - localtime(self.entered_at)))
+        return localtime(self.leaved_at) - localtime(self.entered_at)
+
+    def output_duration(self) -> str:
+        time_range = self._get_duration()
         hours, seconds = divmod(time_range.total_seconds(), 3600)
         minutes, seconds = divmod(seconds, 60)
         return f"{hours:02.0f}:{minutes:02.0f}:{seconds:02.0f}"
 
     def is_strange(self) -> bool:
-        return (localtime(self.leaved_at) - localtime(self.entered_at)).total_seconds() > 3600
+        time_range = self._get_duration()
+        return time_range.total_seconds() > 3600
